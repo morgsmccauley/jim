@@ -4,14 +4,22 @@ import React from 'react';
 import {
   View,
   Text,
+  TextInput,
   TouchableOpacity,
 } from 'react-native';
+import R from 'ramda';
 import moment from 'moment';
-import styles from './WorkoutsStyles';
+import nanoId from 'nanoid/non-secure';
+import styles from './WorkoutsScreenStyles';
 
 type Props = {}
 type State = {
-  items: Array<Object>,
+  items: Array<{
+    id: string,
+    group: string,
+    day: string,
+    date: string,
+  }>,
 }
 class Workouts extends React.Component<Props, State> {
   state = {
@@ -23,19 +31,31 @@ class Workouts extends React.Component<Props, State> {
     date: moment().format('Do MMMM YYYY'),
   });
 
-  addNewItem = (item: { group: string, day: string, date: string }) => {
+  addNewItem = (newItem: { day: string, date: string }) => {
     const { items } = this.state;
-    items.unshift(item);
+
     this.setState({
-      items,
+      items: R.prepend(
+        {
+          id: nanoId(),
+          ...newItem,
+        },
+        items,
+      ),
     });
   }
 
-  renderItem = ({ group, day, date }: Object) => (
-    <View key={group} style={styles.item}>
-      <Text style={styles.itemGroup}>
-        {group}
-      </Text>
+  renderItem = ({
+    id,
+    day,
+    date,
+  }: Object) => (
+    <View key={id} style={styles.item}>
+      <TextInput
+        style={styles.itemGroup}
+        value="Workout"
+        clearTextOnFocus
+      />
       <View>
         <Text style={styles.itemDate}>
           {`${day} - ${date}`}
@@ -45,7 +65,8 @@ class Workouts extends React.Component<Props, State> {
   )
 
   renderItemList = (items: Array<Object>): Array<any> => (
-    items.map(item => this.renderItem(item))
+    items.map(item => (
+      this.renderItem(item)))
   )
 
   render() {
@@ -63,7 +84,15 @@ class Workouts extends React.Component<Props, State> {
               {date}
             </Text>
           </View>
-          <TouchableOpacity style={styles.addItemButton} onPress={() => this.addNewItem({ group: 'chest', day, date })}>
+          <TouchableOpacity
+            style={styles.addItemButton}
+            onPress={
+              () => this.addNewItem({
+                day,
+                date,
+              })
+            }
+          >
             <Text style={styles.addSymbol}>
               +
             </Text>
