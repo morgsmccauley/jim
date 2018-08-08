@@ -1,35 +1,34 @@
-// @flow
-
+import moment from 'moment';
+import nanoId from 'nanoid';
+import R from 'ramda';
 import React from 'react';
 import {
-  View,
   Text,
   TextInput,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import R from 'ramda';
-import moment from 'moment';
-import nanoId from 'nanoid/non-secure';
 import styles from './WorkoutsScreenStyles';
 
-type Props = {}
-type State = {
-  items: Array<{
-    id: string,
-    group: string,
-    day: string,
-    date: string,
-  }>,
+interface Workout {
+  id: string;
+  name: string;
+  day: string;
+  date: string;
 }
-class Workouts extends React.Component<Props, State> {
+
+interface State {
+  items: [Workout];
+}
+class Workouts extends React.Component {
   state = {
     items: [],
-  }
+  };
 
   getDate = () => ({
-    day: moment().format('dddd'),
     date: moment().format('Do MMMM YYYY'),
-  });
+    day: moment().format('dddd'),
+  })
 
   addNewItem = (newItem: { day: string, date: string }) => {
     const { items } = this.state;
@@ -45,14 +44,10 @@ class Workouts extends React.Component<Props, State> {
     });
   }
 
-  renderItem = ({
-    id,
-    day,
-    date,
-  }: Object) => (
+  renderItem = ({ id, day, date }: Workout) => (
     <View key={id} style={styles.item}>
       <TextInput
-        style={styles.itemGroup}
+        style={styles.itemName}
         value="Workout"
         clearTextOnFocus
       />
@@ -64,7 +59,7 @@ class Workouts extends React.Component<Props, State> {
     </View>
   )
 
-  renderItemList = (items: Array<Object>): Array<any> => (
+  renderItemList = (items: Workout[]): any[] => (
     items.map(item => (
       this.renderItem(item)))
   )
@@ -86,12 +81,7 @@ class Workouts extends React.Component<Props, State> {
           </View>
           <TouchableOpacity
             style={styles.addItemButton}
-            onPress={
-              () => this.addNewItem({
-                day,
-                date,
-              })
-            }
+            onPress={() => this.addNewItem({ date, day })}
           >
             <Text style={styles.addSymbol}>
               +
