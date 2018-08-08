@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  addItemButton: {
+  addWorkoutButton: {
   },
   addSymbol: {
     fontSize: 40,
@@ -24,7 +24,7 @@ export default StyleSheet.create({
     marginBottom: 10,
     marginHorizontal: 10,
   },
-  item: {
+  workoutListItem: {
     alignItems: 'flex-start',
     borderColor: '#d6d7da',
     borderRadius: 4,
@@ -32,18 +32,13 @@ export default StyleSheet.create({
     margin: 5,
     padding: 10,
   },
-  itemContainer: {
+  workoutListContainer: {
 
   },
-  itemDate: {
+  workoutDate: {
     fontSize: 20,
   },
-  itemName: {
+  workoutName: {
     fontSize: 25,
-  },
-  welcome: {
-    fontSize: 20,
-    margin: 10,
-    textAlign: 'center',
   },
 });

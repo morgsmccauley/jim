@@ -1,5 +1,5 @@
 import moment from 'moment';
-import nanoId from 'nanoid';
+// import nanoId from 'nanoid/non-secure';
 import R from 'ramda';
 import React from 'react';
 import {
@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import styles from './WorkoutsScreenStyles';
 
+const nanoId = require('nanoid/non-secure');
+
 interface Workout {
   id: string;
   name: string;
@@ -17,12 +19,9 @@ interface Workout {
   date: string;
 }
 
-interface State {
-  items: [Workout];
-}
-class Workouts extends React.Component {
+class WorkoutsScreen extends React.Component {
   state = {
-    items: [],
+    workouts: [],
   };
 
   getDate = () => ({
@@ -30,42 +29,43 @@ class Workouts extends React.Component {
     day: moment().format('dddd'),
   })
 
-  addNewItem = (newItem: { day: string, date: string }) => {
-    const { items } = this.state;
+  addNewWorkout = (currentDate: { day: string, date: string }) => {
+    const workouts = R.prepend(
+      {
+        id: nanoId(),
+        name: 'Workout',
+        ...currentDate,
+      },
+      this.state.workouts,
+    );
 
     this.setState({
-      items: R.prepend(
-        {
-          id: nanoId(),
-          ...newItem,
-        },
-        items,
-      ),
+      workouts,
     });
   }
 
-  renderItem = ({ id, day, date }: Workout) => (
-    <View key={id} style={styles.item}>
+  renderWorkoutListItem = (workout: Workout) => (
+    <View key={workout.id} style={styles.workoutListItem}>
       <TextInput
-        style={styles.itemName}
-        value="Workout"
+        style={styles.workoutName}
+        value={workout.name}
         clearTextOnFocus
       />
       <View>
-        <Text style={styles.itemDate}>
-          {`${day} - ${date}`}
+        <Text style={styles.workoutDate}>
+          {`${workout.day} - ${workout.date}`}
         </Text>
       </View>
     </View>
   )
 
-  renderItemList = (items: Workout[]): any[] => (
-    items.map(item => (
-      this.renderItem(item)))
+  renderWorkoutList = (workouts: Workout[]): any[] => (
+    workouts.map(workout => (
+      this.renderWorkoutListItem(workout)))
   )
 
   render() {
-    const { items } = this.state;
+    const { workouts } = this.state;
     const { day, date } = this.getDate();
 
     return (
@@ -80,20 +80,20 @@ class Workouts extends React.Component {
             </Text>
           </View>
           <TouchableOpacity
-            style={styles.addItemButton}
-            onPress={() => this.addNewItem({ date, day })}
+            style={styles.addWorkoutButton}
+            onPress={() => this.addNewWorkout({ date, day })}
           >
             <Text style={styles.addSymbol}>
               +
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.itemContainer}>
-          {this.renderItemList(items)}
+        <View style={styles.workoutListContainer}>
+          {this.renderWorkoutList(workouts)}
         </View>
       </View>
     );
   }
 }
 
-export default Workouts;
+export default WorkoutsScreen;
