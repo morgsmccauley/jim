@@ -2,18 +2,20 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   addWorkoutButton: {
+    marginRight: 20,
   },
   addSymbol: {
-    fontSize: 40,
+    fontSize: 60,
+    fontFamily: 'IBMPlexSans-Light',
   },
   container: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#E2DFED',
     paddingTop: 20,
   },
   date: {
-    fontSize: 25,
-    fontWeight: 'bold',
+    fontSize: 30,
+    fontFamily: 'IBMPlexSans-Medium',
   },
   dateContainer: {
     flexDirection: 'column',
@@ -21,24 +23,30 @@ export default StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 10,
-    marginHorizontal: 10,
+    margin: 10,
   },
   workoutListItem: {
     alignItems: 'flex-start',
     borderColor: '#d6d7da',
     borderRadius: 4,
     borderWidth: 0.75,
-    margin: 5,
+    marginHorizontal: 10,
+    marginVertical: 7,
     padding: 10,
+    backgroundColor: '#F6F5FA',
+    shadowOffset:{ width: 3, height: 3 },
+    shadowColor: 'black',
+    shadowOpacity: 0.3,
   },
   workoutListContainer: {
 
   },
   workoutDate: {
     fontSize: 20,
+    fontFamily: 'IBMPlexSans-Light',
   },
   workoutName: {
     fontSize: 25,
+    fontFamily: 'IBMPlexSans-Medium',
   },
 });
