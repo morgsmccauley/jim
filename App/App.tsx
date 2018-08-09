@@ -1,6 +1,7 @@
 import React from 'react';
-import WorkoutsScreen from './Components/Workouts/WorkoutsScreen';
+// import WorkoutsScreen from './Components/WorkoutsScreen/WorkoutsScreen';
+import WorkoutDetailsScreen from './Components/WorkoutDetailsScreen/WorkoutDetailsScreen';
 
 export default () => (
-  <WorkoutsScreen />
+  <WorkoutDetailsScreen />
 );

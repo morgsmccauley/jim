@@ -1,5 +1,4 @@
 // import nanoId from 'nanoid/non-secure';
-import R from 'ramda';
 import React from 'react';
 import {
   FlatList,
@@ -10,6 +9,7 @@ import {
 } from 'react-native';
 import styles from './WorkoutsScreenStyles';
 import { getDate, getDay } from '../../Utils/Date';
+import R from 'ramda';
 
 // fix this typing
 const nanoId = require('nanoid/non-secure');
