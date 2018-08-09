@@ -1,4 +1,3 @@
-import moment from 'moment';
 // import nanoId from 'nanoid/non-secure';
 import R from 'ramda';
 import React from 'react';
@@ -9,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import styles from './WorkoutsScreenStyles';
+import { getDate, getDay } from '../../Utils/Date';
 
 const nanoId = require('nanoid/non-secure');
 
@@ -22,12 +22,9 @@ interface Workout {
 class WorkoutsScreen extends React.Component {
   state = {
     workouts: [],
+    day: getDay(),
+    date: getDate(),
   };
-
-  getDate = () => ({
-    date: moment().format('Do MMMM YYYY'),
-    day: moment().format('dddd'),
-  })
 
   addNewWorkout = (currentDate: { day: string, date: string }) => {
     const workouts = R.prepend(
@@ -65,8 +62,7 @@ class WorkoutsScreen extends React.Component {
   )
 
   render() {
-    const { workouts } = this.state;
-    const { day, date } = this.getDate();
+    const { workouts, day, date } = this.state;
 
     return (
       <View style={styles.container}>
