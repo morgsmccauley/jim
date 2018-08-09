@@ -2,6 +2,7 @@
 import R from 'ramda';
 import React from 'react';
 import {
+  FlatList,
   Text,
   TextInput,
   TouchableOpacity,
@@ -10,6 +11,7 @@ import {
 import styles from './WorkoutsScreenStyles';
 import { getDate, getDay } from '../../Utils/Date';
 
+// fix this typing
 const nanoId = require('nanoid/non-secure');
 
 interface Workout {
@@ -56,9 +58,36 @@ class WorkoutsScreen extends React.Component {
     </View>
   )
 
-  renderWorkoutList = (workouts: Workout[]): any[] => (
-    workouts.map(workout => (
-      this.renderWorkoutListItem(workout)))
+  renderWorkoutList = (workouts: Workout[], day: string, date: string) => (
+    <View style={styles.workoutListContainer}>
+      <FlatList
+        data={workouts}
+        renderItem={({ item: workout }) => this.renderWorkoutListItem(workout)}
+        keyExtractor={workout => workout.id}
+        ListHeaderComponent={() => this.renderHeader(day, date)}
+      />
+    </View>
+  )
+
+  renderHeader = (day: string, date: string) => (
+    <View style={styles.header}>
+      <View style={styles.dateContainer}>
+        <Text style={styles.date}>
+          {day}
+        </Text>
+        <Text style={styles.date}>
+          {date}
+        </Text>
+      </View>
+      <TouchableOpacity
+        style={styles.addWorkoutButton}
+        onPress={() => this.addNewWorkout({ date, day })}
+      >
+        <Text style={styles.addSymbol}>
+          +
+        </Text>
+      </TouchableOpacity>
+    </View>
   )
 
   render() {
@@ -66,27 +95,7 @@ class WorkoutsScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.header}>
-          <View style={styles.dateContainer}>
-            <Text style={styles.date}>
-              {day}
-            </Text>
-            <Text style={styles.date}>
-              {date}
-            </Text>
-          </View>
-          <TouchableOpacity
-            style={styles.addWorkoutButton}
-            onPress={() => this.addNewWorkout({ date, day })}
-          >
-            <Text style={styles.addSymbol}>
-              +
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.workoutListContainer}>
-          {this.renderWorkoutList(workouts)}
-        </View>
+        {this.renderWorkoutList(workouts, day, date)}
       </View>
     );
   }
