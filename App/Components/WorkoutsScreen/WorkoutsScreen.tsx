@@ -1,5 +1,8 @@
 // import nanoId from 'nanoid/non-secure';
+const nanoId = require('nanoid/non-secure');
+import R from 'ramda';
 import React from 'react';
+import styles from './WorkoutsScreenStyles';
 import {
   FlatList,
   Text,
@@ -7,12 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import styles from './WorkoutsScreenStyles';
 import { getDate, getDay } from '../../Utils/Date';
-import R from 'ramda';
-
-// fix this typing
-const nanoId = require('nanoid/non-secure');
 
 interface Workout {
   id: string;

@@ -6,7 +6,9 @@
   ],
   "jsRules": {},
   "rules": {
-    "no-unused-variable": true,
+    "prefer-function-over-method": true,
+    "sort-imports": [true, { "member-syntax-sort-order": ["all", "single", "multiple", "none", "alias"] }],
+    "member-ordering": [true, {"order": "fields-first"}],
     "import-name": false,
     "jsx-boolean-value": false,
     "jsx-no-lambda": false,

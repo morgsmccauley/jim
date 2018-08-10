@@ -35,7 +35,7 @@ export default StyleSheet.create({
     padding: 10,
     backgroundColor: '#F6F5FA',
     shadowOffset:{ width: 3, height: 3 },
-    shadowColor: 'green',
+    shadowColor: 'black',
     shadowOpacity: 0.3,
   },
   workoutListContainer: {
