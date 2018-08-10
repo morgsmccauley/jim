@@ -2,7 +2,7 @@
 const nanoId = require('nanoid/non-secure');
 import R from 'ramda';
 import React from 'react';
-import styles from './WorkoutsScreenStyles';
+import styles from './WorkoutsStyles';
 import {
   FlatList,
   Text,

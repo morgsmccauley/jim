@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "lint": "tslint -c tslint.json 'App/**/*.{ts,tsx}'"
+    "lint": "tslint -c tslint.json 'App/**/*.ts?(x)'"
   },
   "dependencies": {
     "moment": "^2.22.2",
