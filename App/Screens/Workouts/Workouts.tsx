@@ -1,7 +1,6 @@
-// import nanoId from 'nanoid/non-secure';
-const nanoId = require('nanoid/non-secure');
 import R from 'ramda';
 import React from 'react';
+import idGen from '../../Utils/ID';
 import styles from './WorkoutsStyles';
 import {
   FlatList,
@@ -11,6 +10,8 @@ import {
   View,
 } from 'react-native';
 import { getDate, getDay } from '../../Utils/Date';
+
+const WORKOUT_ID_PREFIX = 'workout';
 
 interface Workout {
   id: string;
@@ -29,7 +30,7 @@ class WorkoutsScreen extends React.Component {
   addNewWorkout = (currentDate: { day: string, date: string }) => {
     const workouts = R.prepend(
       {
-        id: nanoId(),
+        id: idGen(WORKOUT_ID_PREFIX),
         name: 'Workout',
         ...currentDate,
       },

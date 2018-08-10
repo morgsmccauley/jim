@@ -1,6 +1,6 @@
-const nanoId = require('nanoid/non-secure');
 import R from 'ramda';
 import React from 'react';
+import idGen from '../../Utils/ID';
 import styles from './WorkoutDetailsStyles';
 import {
   FlatList,
@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+
+const EXERCISE_ID_PREFIX = 'exercise';
 
 interface Exercise {
   id: string;
@@ -45,7 +47,7 @@ class WorkoutDetails extends React.Component {
     this.setState({
       exercises: R.append(
         {
-          id: nanoId(),
+          id: idGen(EXERCISE_ID_PREFIX),
           name: 'Placeholder exercise',
           sets: '',
           reps: '',
