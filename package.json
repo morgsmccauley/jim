@@ -5,7 +5,10 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "lint": "tslint -c tslint.json 'App/**/*.ts?(x)'"
+    "lint": "tslint -c tslint.json 'App/**/*.ts?(x)'",
+    "ts": "tsc --skipLibCheck",
+    "check": "npm run lint && npm run ts",
+    "reset": "npm start -- --reset-cache"
   },
   "dependencies": {
     "moment": "^2.22.2",

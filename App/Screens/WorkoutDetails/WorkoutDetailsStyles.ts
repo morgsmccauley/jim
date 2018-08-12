@@ -25,8 +25,6 @@ export default StyleSheet.create({
   },
   exerciseListContainer: {
     marginTop: 20,
-    flexDirection: 'column',
-    alignItems: 'center',
   },
   exerciseListItem: {
     fontFamily: 'IBMPlexSans-Light',

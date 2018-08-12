@@ -1,6 +1,6 @@
 import R from 'ramda';
 import React from 'react';
-import idGen from '../../Utils/ID';
+import idGen from '../../Utils/Id';
 import styles from './WorkoutsStyles';
 import {
   FlatList,
@@ -13,14 +13,24 @@ import { getDate, getDay } from '../../Utils/Date';
 
 const WORKOUT_ID_PREFIX = 'workout';
 
-interface Workout {
+interface IWorkout {
   id: string;
   name: string;
   day: string;
   date: string;
 }
 
-class WorkoutsScreen extends React.Component {
+interface IWorkoutState {
+  workouts: IWorkout[];
+  day: string;
+  date: string;
+}
+
+interface IWorkoutProps {
+
+}
+
+class WorkoutsScreen extends React.Component<IWorkoutProps, IWorkoutState> {
   state = {
     workouts: [],
     day: getDay(),
@@ -42,7 +52,7 @@ class WorkoutsScreen extends React.Component {
     });
   }
 
-  renderWorkoutListItem = (workout: Workout) => (
+  renderWorkoutListItem = (workout: IWorkout) => (
     <View key={workout.id} style={styles.workoutListItem}>
       <TextInput
         style={styles.workoutName}
@@ -57,7 +67,7 @@ class WorkoutsScreen extends React.Component {
     </View>
   )
 
-  renderWorkoutList = (workouts: Workout[], day: string, date: string) => (
+  renderWorkoutList = (workouts: IWorkout[], day: string, date: string) => (
     <View style={styles.workoutListContainer}>
       <FlatList
         data={workouts}

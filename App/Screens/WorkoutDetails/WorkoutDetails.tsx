@@ -1,7 +1,8 @@
 import R from 'ramda';
 import React from 'react';
-import idGen from '../../Utils/ID';
+import idGen from '../../Utils/Id';
 import styles from './WorkoutDetailsStyles';
+import Exercise, { IExercise } from '../../Components/Exercise/Exercise';
 import {
   FlatList,
   Text,
@@ -11,30 +12,24 @@ import {
 
 const EXERCISE_ID_PREFIX = 'exercise';
 
-interface Exercise {
-  id: string;
-  name: string;
-  sets: string;
-  reps: string;
-  // weight: string;
-  // weightUnit: string;
-  // description: string;
-  // notes: string;
-  // completionTime: number;
+interface IWorkoutDetailsState {
+  exercises: IExercise[];
 }
 
-class WorkoutDetails extends React.Component {
+interface IWorkoutDetailsProps {
+
+}
+
+class WorkoutDetails extends React.Component<IWorkoutDetailsProps, IWorkoutDetailsState> {
   state = {
     exercises: [],
   };
 
-  renderExerciseItem = (exercise: Exercise) => (
-    <Text style={styles.exerciseListItem}>
-      {exercise.name}
-    </Text>
+  renderExerciseItem = (exercise: IExercise) => (
+    <Exercise />
   )
 
-  renderExerciseList = (exercises: Exercise[]) => (
+  renderExerciseList = (exercises: IExercise[]) => (
     <FlatList
       data={exercises}
       renderItem={({ item: exercise }) => this.renderExerciseItem(exercise)}
@@ -49,8 +44,7 @@ class WorkoutDetails extends React.Component {
         {
           id: idGen(EXERCISE_ID_PREFIX),
           name: 'Placeholder exercise',
-          sets: '',
-          reps: '',
+          sets: [{ weight: 80, reps: 8 }],
         },
         exercises,
       ),
