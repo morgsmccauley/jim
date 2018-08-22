@@ -21,6 +21,7 @@ export interface IExercise {
 interface ISet {
   weight: number;
   reps: number;
+  id: number;
 }
 
 enum MassUnit {
@@ -35,10 +36,10 @@ const kgToLb = (kg: number): number => kg / 0.45359237;
 class Exercise extends React.Component {
   state = {
     sets: [
-      { weight: 80, reps: 8 },
-      { weight: 80, reps: 8 },
-      { weight: 80, reps: 8 },
-      { weight: 80, reps: 8 },
+      { weight: 80, reps: 8, id: 1 },
+      { weight: 80, reps: 8, id: 2 },
+      { weight: 80, reps: 8, id: 3 },
+      { weight: 80, reps: 8, id: 4 },
     ],
     massUnit: MassUnit.Kg,
   };
@@ -49,19 +50,37 @@ class Exercise extends React.Component {
     </Text>
   )
 
-  renderSet = (set: ISet) => (
-    <View style={Styles.set}>
-      <TextInput
-        value={`${Math.round(set.weight)}`}
-      />
-      <Text>
-        {` x `}
-      </Text>
-      <TextInput
-        value={`${set.reps}`}
-      />
-    </View>
-  )
+  updateSetForId = (id: number) => (updatedSetValue: object) => {
+    const { sets } = this.state;
+    const selectedIndex = R.findIndex(R.propEq('id', id))(sets);
+    const updatedSet = {
+      ...sets[selectedIndex],
+      ...updatedSetValue,
+    };
+
+    this.setState({
+      sets: R.update(selectedIndex, updatedSet, sets),
+    });
+  }
+
+  renderSet (set: ISet) {
+    const handleSetUpdate = this.updateSetForId(set.id);
+    return (
+      <View style={Styles.set}>
+        <TextInput
+          value={`${Math.round(set.weight)}`}
+          onBlur={e => handleSetUpdate({ weight: e.nativeEvent.text })}
+        />
+        <Text>
+          {' x '}
+        </Text>
+        <TextInput
+          value={`${set.reps}`}
+          onBlur={e => handleSetUpdate({ reps: e.nativeEvent.text })}
+        />
+      </View>
+    );
+  }
 
   appendSeparatorToSet = (set: ISet) => [
     this.renderSet(set),
