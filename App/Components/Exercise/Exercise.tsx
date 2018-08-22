@@ -1,45 +1,18 @@
+import R from 'ramda';
 import React from 'react';
+import Styles from './ExerciseStyles';
 import {
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
 
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 15,
-    fontFamily: 'IBMPlexSans-Light',
-    backgroundColor: '#F6F5FA',
-    borderWidth: 0.75,
-    borderRadius: 4,
-    fontSize: 15,
-    padding: 5,
-    marginVertical: 5,
-    shadowOffset:{ width: 3, height: 3 },
-    shadowColor: 'black',
-    shadowOpacity: 0.3,
-    marginHorizontal: 10,
-  },
-  exerciseListItem: {
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 5,
-  },
-  setsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-});
-
 export interface IExercise {
   id: string;
   name: string;
   sets: ISet[];
-  massUnit?: MassUnit;
+  massUnit: MassUnit;
   notes?: string;
   // description: string;
   // completionTime: number;
@@ -51,36 +24,108 @@ interface ISet {
 }
 
 enum MassUnit {
-  Kg,
-  Lb,
+  Kg = 'Kg',
+  Lb = 'Lb',
 }
 
-export default () => (
-  <View style={styles.container}>
-    <View style={styles.header}>
+const lbToKg = (lb: number): number => lb * 0.45359237;
+
+const kgToLb = (kg: number): number => kg / 0.45359237;
+
+class Exercise extends React.Component {
+  state = {
+    sets: [
+      { weight: 80, reps: 8 },
+      { weight: 80, reps: 8 },
+      { weight: 80, reps: 8 },
+      { weight: 80, reps: 8 },
+    ],
+    massUnit: MassUnit.Kg,
+  };
+
+  renderSeparator = () => (
+    <Text style={Styles.separator}>
+      |
+    </Text>
+  )
+
+  renderSet = (set: ISet) => (
+    <View style={Styles.set}>
+      <TextInput
+        value={`${Math.round(set.weight)}`}
+      />
       <Text>
-        Flat bench
+        {` x `}
       </Text>
-      <TouchableOpacity>
-        <Text>
-          Kg
-        </Text>
-      </TouchableOpacity>
+      <TextInput
+        value={`${set.reps}`}
+      />
     </View>
-    <View style={styles.setsContainer}>
-      <TextInput value="80" />
-      <Text>
-        /
-      </Text>
-      <TextInput value="80" />
-      <Text>
-        /
-      </Text>
-      <TextInput value="80" />
-      <Text>
-        /
-      </Text>
-      <TextInput value="80" />
-    </View>
-  </View>
-);
+  )
+
+  appendSeparatorToSet = (set: ISet) => [
+    this.renderSet(set),
+    this.renderSeparator(),
+  ]
+
+  renderSetsWithSeparators = R.pipe(
+    R.chain(this.appendSeparatorToSet),
+    arr => R.dropLast(1, arr),
+  );
+
+  renderSets () {
+    const { sets } = this.state;
+
+    return (
+      <View style={Styles.setsContainer}>
+        {this.renderSetsWithSeparators(sets)}
+      </View>
+    );
+  }
+
+  convertWeightsInSets = (sets: ISet[], conversionFunc: Function) => R.map(
+    R.applySpec({
+      weight: ({ weight }: { weight: number }) => conversionFunc(weight),
+      reps: ({ reps }: { reps: number }) => R.identity(reps),
+    }),
+  )(sets)
+
+  toggleMassUnit = () => {
+    const {
+      massUnit: currentMassUnit,
+      sets,
+    } = this.state;
+
+    const { newMassUnit, conversionFunc } =
+      currentMassUnit === MassUnit.Kg
+      ?  { newMassUnit: MassUnit.Lb, conversionFunc: kgToLb }
+      : { newMassUnit: MassUnit.Kg, conversionFunc: lbToKg };
+
+    this.setState({
+      massUnit: newMassUnit,
+      sets: this.convertWeightsInSets(sets, conversionFunc),
+    });
+  }
+
+  render () {
+    return (
+      <View style={Styles.container}>
+        <View style={Styles.header}>
+          <TextInput style={Styles.headerText}>
+            Flat bench
+          </TextInput>
+          <TouchableOpacity
+            onPress={this.toggleMassUnit}
+          >
+            <Text style={Styles.headerText}>
+              {this.state.massUnit}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        {this.renderSets()}
+      </View>
+    );
+  }
+}
+
+export default Exercise;

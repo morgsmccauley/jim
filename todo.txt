@@ -1,5 +1,6 @@
 - Exercise.tsx -> WorkoutDetails.tsx
 - Navigation between screens
+- handle updates in exercise
 - jest & enzyme
 - git-hooks
 - prettier
