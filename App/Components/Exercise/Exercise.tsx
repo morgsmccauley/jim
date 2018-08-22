@@ -63,33 +63,28 @@ class Exercise extends React.Component {
     });
   }
 
-  renderSet (set: ISet) {
+  renderSet = (set: ISet) => {
     const handleSetUpdate = this.updateSetForId(set.id);
     return (
       <View style={Styles.set}>
         <TextInput
           value={`${Math.round(set.weight)}`}
-          onBlur={e => handleSetUpdate({ weight: e.nativeEvent.text })}
+          onBlur={e => handleSetUpdate({ weight: Number(e.nativeEvent.text) })}
         />
         <Text>
           {' x '}
         </Text>
         <TextInput
           value={`${set.reps}`}
-          onBlur={e => handleSetUpdate({ reps: e.nativeEvent.text })}
+          onBlur={e => handleSetUpdate({ reps: Number(e.nativeEvent.text) })}
         />
       </View>
     );
   }
 
-  appendSeparatorToSet = (set: ISet) => [
-    this.renderSet(set),
-    this.renderSeparator(),
-  ]
-
   renderSetsWithSeparators = R.pipe(
-    R.chain(this.appendSeparatorToSet),
-    arr => R.dropLast(1, arr),
+    R.map(this.renderSet),
+    R.intersperse(this.renderSeparator()),
   );
 
   renderSets () {
@@ -102,10 +97,14 @@ class Exercise extends React.Component {
     );
   }
 
+  callConversionWithWeight = (conversionFunc: Function) =>
+    ({ weight }: { weight: number }) => conversionFunc(weight)
+
   convertWeightsInSets = (sets: ISet[], conversionFunc: Function) => R.map(
     R.applySpec({
-      weight: ({ weight }: { weight: number }) => conversionFunc(weight),
-      reps: ({ reps }: { reps: number }) => R.identity(reps),
+      weight: this.callConversionWithWeight(conversionFunc),
+      reps: R.prop('reps'),
+      id: R.prop('id'),
     }),
   )(sets)
 
