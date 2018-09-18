@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { kgToLb, lbToKg } from '../../Utils/Conversions';
 
 export interface IExercise {
   id: string;
@@ -28,10 +29,6 @@ enum MassUnit {
   Kg = 'Kg',
   Lb = 'Lb',
 }
-
-const lbToKg = (lb: number): number => lb * 0.45359237;
-
-const kgToLb = (kg: number): number => kg / 0.45359237;
 
 class Exercise extends React.Component {
   state = {
