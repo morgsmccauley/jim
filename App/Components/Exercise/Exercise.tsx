@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { kgToLb, lbToKg } from '../../Utils/Conversions';
+import { IConversion, kgToLb, lbToKg } from '../../Utils/Conversions';
 
 export interface IExercise {
   id: string;
@@ -30,7 +30,16 @@ enum MassUnit {
   Lb = 'Lb',
 }
 
-class Exercise extends React.Component {
+interface IExerciseState {
+  sets: ISet[];
+  massUnit: MassUnit;
+}
+
+interface IExerciseProps {
+
+}
+
+class Exercise extends React.Component<IExerciseProps, IExerciseState> {
   state = {
     sets: [
       { weight: 80, reps: 8, id: 1 },
@@ -85,42 +94,31 @@ class Exercise extends React.Component {
   );
 
   renderSets () {
-    const { sets } = this.state;
-
     return (
       <View style={Styles.setsContainer}>
-        {this.renderSetsWithSeparators(sets)}
+        {this.renderSetsWithSeparators(this.state.sets)}
       </View>
     );
   }
 
-  callConversionWithWeight = (conversionFunc: Function) =>
-    ({ weight }: { weight: number }) => conversionFunc(weight)
+  isKg = ({ massUnit }: IExerciseState) => R.equals(MassUnit.Kg, massUnit);
 
-  convertWeightsInSets = (sets: ISet[], conversionFunc: Function) => R.map(
-    R.applySpec({
-      weight: this.callConversionWithWeight(conversionFunc),
-      reps: R.prop('reps'),
-      id: R.prop('id'),
-    }),
-  )(sets)
+  convertWeightInSet = (conversion: IConversion) => R.evolve({
+    weight: conversion,
+  })
 
-  toggleMassUnit = () => {
-    const {
-      massUnit: currentMassUnit,
-      sets,
-    } = this.state;
+  convertTo = (massUnit: MassUnit, conversion: IConversion) => R.evolve({
+    sets: R.map(this.convertWeightInSet(conversion)),
+    massUnit: R.always(massUnit),
+  })
 
-    const { newMassUnit, conversionFunc } =
-      currentMassUnit === MassUnit.Kg
-      ?  { newMassUnit: MassUnit.Lb, conversionFunc: kgToLb }
-      : { newMassUnit: MassUnit.Kg, conversionFunc: lbToKg };
+  updateSetsWeight = R.ifElse(
+    this.isKg,
+    this.convertTo(MassUnit.Lb, kgToLb),
+    this.convertTo(MassUnit.Kg, lbToKg),
+  );
 
-    this.setState({
-      massUnit: newMassUnit,
-      sets: this.convertWeightsInSets(sets, conversionFunc),
-    });
-  }
+  toggleMassUnit = () => this.setState(this.updateSetsWeight);
 
   render () {
     return (

@@ -1,3 +1,7 @@
-export const lbToKg = (lb: number): number => lb * 0.45359237;
+export interface IConversion {
+  (weight: number): number;
+}
 
-export const kgToLb = (kg: number): number => kg / 0.45359237;
+export const lbToKg: IConversion = weight => weight * 0.45359237;
+
+export const kgToLb: IConversion = weight => weight / 0.45359237;
