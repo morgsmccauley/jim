@@ -1,8 +1,9 @@
+import AddExerciseModal from '../../Components/AddExerciseModal/AddExerciseModal';
 import R from 'ramda';
 import React from 'react';
 import idGen from '../../Utils/Id';
 import styles from './WorkoutDetailsStyles';
-import Exercise, { IExercise } from '../../Components/Exercise/Exercise';
+import Exercise, { IExercise, MassUnit } from '../../Components/Exercise/Exercise';
 import {
   FlatList,
   Text,
@@ -10,10 +11,12 @@ import {
   View,
 } from 'react-native';
 
-const EXERCISE_ID_PREFIX = 'exercise';
+const exerciseIdGen = idGen('exercise');
+const setIdGen = idGen('set');
 
 interface IWorkoutDetailsState {
   exercises: IExercise[];
+  isAddModalVisible: boolean;
 }
 
 interface IWorkoutDetailsProps {
@@ -23,10 +26,11 @@ interface IWorkoutDetailsProps {
 class WorkoutDetails extends React.Component<IWorkoutDetailsProps, IWorkoutDetailsState> {
   state = {
     exercises: [],
+    isAddModalVisible: false,
   };
 
   renderExerciseItem = (exercise: IExercise) => (
-    <Exercise />
+    <Exercise name={exercise.name} sets={exercise.sets} />
   )
 
   renderExerciseList = (exercises: IExercise[]) => (
@@ -37,18 +41,34 @@ class WorkoutDetails extends React.Component<IWorkoutDetailsProps, IWorkoutDetai
     />
   )
 
-  addExercise = () => {
-    const { exercises } = this.state;
-    this.setState({
+  createInitialSets = (sets: number, reps: number) => R.pipe(
+    R.repeat({}),
+    R.map(
+      set => ({ reps, weight: 0, id: setIdGen() }),
+    ),
+  )(sets)
+
+  addExercise ({ name, sets, reps }: { name: string, sets: number, reps: number }) {
+    this.setState(({ exercises }) => ({
       exercises: R.append(
         {
-          id: idGen(EXERCISE_ID_PREFIX),
-          name: 'Placeholder exercise',
-          sets: [{ weight: 80, reps: 8 }],
+          name,
+          id: exerciseIdGen(),
+          sets: this.createInitialSets(sets, reps),
+          massUnit: MassUnit.Kg,
         },
         exercises,
       ),
-    });
+    }));
+  }
+
+  toggleModal (viewState: 'open' | 'closed') {
+    this.setState({ isAddModalVisible: !!(viewState === 'open') });
+  }
+
+  handleAddExercise = (partialExercise: { name: string, sets: number, reps: number }) => {
+    this.addExercise(partialExercise);
+    this.toggleModal('closed');
   }
 
   render () {
@@ -73,7 +93,7 @@ class WorkoutDetails extends React.Component<IWorkoutDetailsProps, IWorkoutDetai
         <View style={styles.addExerciseButtonContainer}>
           <TouchableOpacity
             style={styles.addExerciseButton}
-            onPress={() => this.addExercise()}
+            onPress={() => this.toggleModal('open')}
           >
             <Text style={styles.addExerciseSymbol}>
               +
@@ -83,6 +103,11 @@ class WorkoutDetails extends React.Component<IWorkoutDetailsProps, IWorkoutDetai
             </Text>
           </TouchableOpacity>
         </View>
+        <AddExerciseModal
+          isVisible={this.state.isAddModalVisible}
+          closeModal={() => this.setState({ isAddModalVisible: false })}
+          onCompleteCallback={this.handleAddExercise}
+        />
       </View>
     );
   }

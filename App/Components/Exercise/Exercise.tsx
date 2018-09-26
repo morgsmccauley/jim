@@ -1,13 +1,13 @@
 import R from 'ramda';
 import React from 'react';
 import Styles from './ExerciseStyles';
+import { IConversion, kgToLb, lbToKg } from '../../Utils/Conversions';
 import {
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { IConversion, kgToLb, lbToKg } from '../../Utils/Conversions';
 
 export interface IExercise {
   id: string;
@@ -22,10 +22,10 @@ export interface IExercise {
 interface ISet {
   weight: number;
   reps: number;
-  id: number;
+  id: string;
 }
 
-enum MassUnit {
+export enum MassUnit {
   Kg = 'Kg',
   Lb = 'Lb',
 }
@@ -36,17 +36,13 @@ interface IExerciseState {
 }
 
 interface IExerciseProps {
-
+  name: string;
+  sets: ISet[];
 }
 
 class Exercise extends React.Component<IExerciseProps, IExerciseState> {
   state = {
-    sets: [
-      { weight: 80, reps: 8, id: 1 },
-      { weight: 80, reps: 8, id: 2 },
-      { weight: 80, reps: 8, id: 3 },
-      { weight: 80, reps: 8, id: 4 },
-    ],
+    sets: this.props.sets,
     massUnit: MassUnit.Kg,
   };
 
@@ -56,7 +52,7 @@ class Exercise extends React.Component<IExerciseProps, IExerciseState> {
     </Text>
   )
 
-  updateSetForId = (id: number) => (updatedSetValue: object) => {
+  updateSetForId = (id: string) => (updatedSetValue: object) => {
     const { sets } = this.state;
     const selectedIndex = R.findIndex(R.propEq('id', id))(sets);
     const updatedSet = {
@@ -72,7 +68,10 @@ class Exercise extends React.Component<IExerciseProps, IExerciseState> {
   renderSet = (set: ISet) => {
     const handleSetUpdate = this.updateSetForId(set.id);
     return (
-      <View style={Styles.set}>
+      <View
+        style={Styles.set}
+        key={set.id}
+      >
         <TextInput
           value={`${Math.round(set.weight)}`}
           onBlur={e => handleSetUpdate({ weight: Number(e.nativeEvent.text) })}
@@ -93,14 +92,6 @@ class Exercise extends React.Component<IExerciseProps, IExerciseState> {
     R.intersperse(this.renderSeparator()),
   );
 
-  renderSets () {
-    return (
-      <View style={Styles.setsContainer}>
-        {this.renderSetsWithSeparators(this.state.sets)}
-      </View>
-    );
-  }
-
   isKg = ({ massUnit }: IExerciseState) => R.equals(MassUnit.Kg, massUnit);
 
   convertWeightInSet = (conversion: IConversion) => R.evolve({
@@ -120,12 +111,20 @@ class Exercise extends React.Component<IExerciseProps, IExerciseState> {
 
   toggleMassUnit = () => this.setState(this.updateSetsWeight);
 
+  renderSets () {
+    return (
+      <View style={Styles.setsContainer}>
+        {this.renderSetsWithSeparators(this.state.sets)}
+      </View>
+    );
+  }
+
   render () {
     return (
       <View style={Styles.container}>
         <View style={Styles.header}>
           <TextInput style={Styles.headerText}>
-            Flat bench
+            {this.props.name}
           </TextInput>
           <TouchableOpacity
             onPress={this.toggleMassUnit}

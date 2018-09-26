@@ -1,6 +1,6 @@
-- Exercise.tsx -> WorkoutDetails.tsx
+- modal for creating new workout
 - Navigation between screens
-- handle updates in exercise
-- jest & enzyme
+- Tests
+  - Mocha, chai, sinon, enzyme
 - git-hooks
 - prettier
