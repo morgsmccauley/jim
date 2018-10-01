@@ -2,5 +2,5 @@
 - Navigation between screens
 - Tests
   - Mocha, chai, sinon, enzyme
-- git-hooks
 - prettier
+- material ui

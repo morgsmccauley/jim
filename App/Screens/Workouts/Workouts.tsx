@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { getDate, getDay } from '../../Utils/Date';
 
-const WORKOUT_ID_PREFIX = 'workout';
+const workoutIdGen = idGen('workout');
 
 interface IWorkout {
   id: string;
@@ -40,7 +40,7 @@ class WorkoutsScreen extends React.Component<IWorkoutProps, IWorkoutState> {
   addNewWorkout = (currentDate: { day: string, date: string }) => {
     const workouts = R.prepend(
       {
-        id: idGen(WORKOUT_ID_PREFIX),
+        id: workoutIdGen(),
         name: 'Workout',
         ...currentDate,
       },
