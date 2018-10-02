@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import idGen from '../../Utils/Id';
 
 export interface IExercise {
   id: string;
@@ -40,6 +41,8 @@ interface IExerciseProps {
   sets: ISet[];
 }
 
+const separatorIdGen = idGen('separator');
+
 class Exercise extends React.Component<IExerciseProps, IExerciseState> {
   state = {
     sets: this.props.sets,
@@ -47,21 +50,17 @@ class Exercise extends React.Component<IExerciseProps, IExerciseState> {
   };
 
   renderSeparator = () => (
-    <Text style={Styles.separator}>
+    <Text key={separatorIdGen()} style={Styles.separator}>
       |
     </Text>
   )
 
-  updateSetForId = (id: string) => (updatedSetValue: object) => {
+  updateSetForId = (id: string) => (updatedValue: object) => {
     const { sets } = this.state;
-    const selectedIndex = R.findIndex(R.propEq('id', id))(sets);
-    const updatedSet = {
-      ...sets[selectedIndex],
-      ...updatedSetValue,
-    };
-
+    const index = R.findIndex(R.propEq('id', id))(sets);
+    const updatedSet = R.merge(sets[index], updatedValue);
     this.setState({
-      sets: R.update(selectedIndex, updatedSet, sets),
+      sets: R.update(index, updatedSet, sets),
     });
   }
 
@@ -69,6 +68,7 @@ class Exercise extends React.Component<IExerciseProps, IExerciseState> {
     const handleSetUpdate = this.updateSetForId(set.id);
     return (
       <View
+        testID="Exercise_set"
         style={Styles.set}
         key={set.id}
       >
@@ -123,10 +123,11 @@ class Exercise extends React.Component<IExerciseProps, IExerciseState> {
     return (
       <View style={Styles.container}>
         <View style={Styles.header}>
-          <TextInput style={Styles.headerText}>
+          <TextInput testID="Exercise_header" style={Styles.headerText}>
             {this.props.name}
           </TextInput>
           <TouchableOpacity
+            testID="Exercise_conversion-button"
             onPress={this.toggleMassUnit}
           >
             <Text style={Styles.headerText}>

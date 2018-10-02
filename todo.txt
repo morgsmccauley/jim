@@ -1,6 +1,4 @@
 - modal for creating new workout
 - Navigation between screens
-- Tests
-  - Mocha, chai, sinon, enzyme
 - prettier
 - material ui
