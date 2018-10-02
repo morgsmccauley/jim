@@ -7,7 +7,7 @@
   "jsRules": {},
   "rules": {
     "prefer-function-over-method": true,
-    "sort-imports": [true, { "member-syntax-sort-order": ["all", "single", "multiple", "none", "alias"] }],
+    // "sort-imports": [true, { "member-syntax-sort-order": ["all", "single", "multiple", "none", "alias"] }],
     "import-name": false,
     "jsx-boolean-value": false,
     "jsx-no-lambda": false,
