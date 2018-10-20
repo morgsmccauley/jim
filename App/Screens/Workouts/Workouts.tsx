@@ -2,6 +2,7 @@ import R from 'ramda';
 import React from 'react';
 import idGen from '../../Utils/Id';
 import styles from './WorkoutsStyles';
+import { NavigationScreenProp } from 'react-navigation';
 import {
   FlatList,
   Text,
@@ -27,10 +28,14 @@ interface IWorkoutState {
 }
 
 interface IWorkoutProps {
-
+  navigation: NavigationScreenProp<any, any>;
 }
 
 class WorkoutsScreen extends React.Component<IWorkoutProps, IWorkoutState> {
+  static navigationOptions = {
+    title: 'Workouts',
+  };
+
   state = {
     workouts: [],
     day: getDay(),
@@ -53,7 +58,11 @@ class WorkoutsScreen extends React.Component<IWorkoutProps, IWorkoutState> {
   }
 
   renderWorkoutListItem = (workout: IWorkout) => (
-    <View key={workout.id} style={styles.workoutListItem}>
+    <TouchableOpacity
+      key={workout.id}
+      style={styles.workoutListItem}
+      onPress={() => this.props.navigation.navigate('WorkoutDetails')}
+    >
       <TextInput
         style={styles.workoutName}
         value={workout.name}
@@ -64,7 +73,7 @@ class WorkoutsScreen extends React.Component<IWorkoutProps, IWorkoutState> {
           {`${workout.day} - ${workout.date}`}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 
   renderWorkoutList = (workouts: IWorkout[], day: string, date: string) => (

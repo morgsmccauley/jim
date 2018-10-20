@@ -1,4 +1,12 @@
 - modal for creating new workout
-- Navigation between screens
 - prettier
 - material ui
+- redux
+
+issues:
+- test runner breaks when an external module is used in the component.
+  ts-node is unable to run the tests because the external module is not compiled to a compatible target. usually complains about 'import'
+  possible solutions:
+    - compile to js then run mocha
+    - compile node_modules as well as source, can use --ignore flag for ts-node somehow
+    - mock the external modules

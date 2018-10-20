@@ -1,13 +1,11 @@
 import { StyleSheet } from 'react-native';
+import ApplicationStyles from '../../Themes/ApplicationStyles';
 
 export default StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: '#E2DFED',
-    // flex: 1,
+    ...ApplicationStyles.container,
   },
   header: {
-    paddingTop: 20,
     flexDirection: 'column',
     alignItems: 'center',
   },

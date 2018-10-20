@@ -1,7 +1,6 @@
 import React from 'react';
-// import WorkoutsScreen from './Screens/Workouts/Workouts';
-import WorkoutDetailsScreen from './Screens/WorkoutDetails/WorkoutDetails';
+import RootStack from './Navigation/Stack';
 
 export default () => (
-  <WorkoutDetailsScreen />
+  <RootStack />
 );

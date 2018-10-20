@@ -7,7 +7,8 @@
     "test": "node_modules/mocha/bin/_mocha --opts test/mocha.opts app/**/*.spec.* ",
     "lint": "tslint -c tslint.json 'App/**/*.ts?(x)'",
     "ts-check": "tsc --project tsconfig.json --skipLibCheck --noEmit",
-    "reset": "npm start -- --reset-cache"
+    "reset": "npm start -- --reset-cache",
+    "clean": "rm -rf node_modules/ && npm install"
   },
   "husky": {
     "hooks": {
@@ -20,7 +21,7 @@
     "ramda": "^0.25.0",
     "react": "16.4.1",
     "react-native": "0.56.0",
-    "react-native-modal": "^6.5.0"
+    "react-navigation": "^2.17.0"
   },
   "devDependencies": {
     "@types/chai": "^4.1.6",
@@ -31,6 +32,7 @@
     "@types/ramda": "^0.25.36",
     "@types/react": "^16.4.14",
     "@types/react-native": "^0.56.24",
+    "@types/react-navigation": "^2.0.24",
     "@types/sinon": "^5.0.2",
     "chai": "^4.2.0",
     "enzyme": "^3.6.0",
@@ -41,16 +43,12 @@
     "react-dom": "^16.5.2",
     "react-native-mock-render": "^0.1.2",
     "react-native-typescript-transformer": "^1.2.10",
-    "react-test-renderer": "16.4.1",
     "sinon": "^6.3.4",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.9.2",
     "tslint-react": "^3.6.0",
     "typescript": "^3.0.1"
-  },
-  "jest": {
-    "preset": "react-native"
   },
   "rnpm": {
     "assets": [

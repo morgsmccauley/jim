@@ -8,16 +8,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import idGen from '../../Utils/Id';
 
 export interface IExercise {
   id: string;
   name: string;
   sets: ISet[];
   massUnit: MassUnit;
-  notes?: string;
-  // description: string;
-  // completionTime: number;
 }
 
 interface ISet {
@@ -41,8 +37,6 @@ interface IExerciseProps {
   sets: ISet[];
 }
 
-const separatorIdGen = idGen('separator');
-
 class Exercise extends React.Component<IExerciseProps, IExerciseState> {
   state = {
     sets: this.props.sets,
@@ -50,7 +44,7 @@ class Exercise extends React.Component<IExerciseProps, IExerciseState> {
   };
 
   renderSeparator = () => (
-    <Text key={separatorIdGen()} style={Styles.separator}>
+    <Text style={Styles.separator}>
       |
     </Text>
   )

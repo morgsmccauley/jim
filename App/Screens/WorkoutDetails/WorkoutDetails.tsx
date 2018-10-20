@@ -1,8 +1,8 @@
-// import AddExerciseModal from '../../Components/AddExerciseModal/AddExerciseModal';
 import R from 'ramda';
 import React from 'react';
 import idGen from '../../Utils/Id';
 import styles from './WorkoutDetailsStyles';
+import { NavigationScreenProp } from 'react-navigation';
 import Exercise, { IExercise, MassUnit } from '../../Components/Exercise/Exercise';
 import {
   FlatList,
@@ -16,13 +16,19 @@ const setIdGen = idGen('set');
 
 interface IWorkoutDetailsState {
   exercises: IExercise[];
-  isAddModalVisible: boolean;
 }
 
-class WorkoutDetails extends React.Component<{}, IWorkoutDetailsState> {
+interface IWorkoutDetailsProps {
+  navigation: NavigationScreenProp<any, any>;
+}
+
+class WorkoutDetails extends React.Component<IWorkoutDetailsProps, IWorkoutDetailsState> {
+  static navigationOptions = {
+    title: 'Workout details',
+  };
+
   state = {
     exercises: [],
-    isAddModalVisible: false,
   };
 
   renderExerciseItem = (exercise: IExercise) => (
@@ -59,13 +65,12 @@ class WorkoutDetails extends React.Component<{}, IWorkoutDetailsState> {
     }));
   }
 
-  toggleModal (viewState: 'open' | 'closed') {
-    this.setState({ isAddModalVisible: !!(viewState === 'open') });
+  handleAddExercise = (initialExercise: { name: string, sets: number, reps: number }) => {
+    this.addExercise(initialExercise);
   }
 
-  handleAddExercise = (partialExercise: { name: string, sets: number, reps: number }) => {
-    this.addExercise(partialExercise);
-    this.toggleModal('closed');
+  openAddExerciseModal () {
+    this.props.navigation.navigate('AddExerciseModal', { onComplete: this.handleAddExercise });
   }
 
   render () {
@@ -91,7 +96,7 @@ class WorkoutDetails extends React.Component<{}, IWorkoutDetailsState> {
           <TouchableOpacity
             testID="WorkoutDetails_add-exercise-button"
             style={styles.addExerciseButton}
-            onPress={() => this.toggleModal('open')}
+            onPress={() => this.openAddExerciseModal()}
           >
             <Text style={styles.addExerciseSymbol}>
               +
@@ -107,10 +112,3 @@ class WorkoutDetails extends React.Component<{}, IWorkoutDetailsState> {
 }
 
 export default WorkoutDetails;
-
-// commenting because cant be mocked in test
-// <AddExerciseModal
-//   isVisible={this.state.isAddModalVisible}
-//   closeModal={() => this.setState({ isAddModalVisible: false })}
-//   onCompleteCallback={this.handleAddExercise}
-// />
