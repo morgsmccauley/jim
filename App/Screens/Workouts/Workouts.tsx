@@ -1,6 +1,6 @@
 import R from 'ramda';
 import React from 'react';
-import idGen from '../../Utils/Id';
+import idGen from '../../Utils/Id/Id';
 import styles from './WorkoutsStyles';
 import { NavigationScreenProp } from 'react-navigation';
 import {
@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { getDate, getDay } from '../../Utils/Date';
+import { getDate, getDay } from '../../Utils/Date/Date';
 
 const workoutIdGen = idGen('workout');
 

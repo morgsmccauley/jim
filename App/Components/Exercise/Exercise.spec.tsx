@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow, ShallowWrapper } from 'enzyme';
-import selector from '../../Utils/Selector';
+import selector from '../../Utils/Selector/Selector';
 
 import Exercise from './Exercise';
 

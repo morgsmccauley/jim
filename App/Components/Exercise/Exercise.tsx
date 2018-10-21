@@ -1,7 +1,7 @@
 import R from 'ramda';
 import React from 'react';
 import Styles from './ExerciseStyles';
-import { IConversion, kgToLb, lbToKg } from '../../Utils/Conversions';
+import { IConversion, kgToLb, lbToKg } from '../../Utils/Conversions/Conversions';
 import {
   Text,
   TextInput,

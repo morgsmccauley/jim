@@ -1,6 +1,6 @@
 import R from 'ramda';
 import React from 'react';
-import idGen from '../../Utils/Id';
+import idGen from '../../Utils/Id/Id';
 import styles from './WorkoutDetailsStyles';
 import { NavigationScreenProp } from 'react-navigation';
 import Exercise, { IExercise, MassUnit } from '../../Components/Exercise/Exercise';
