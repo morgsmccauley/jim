@@ -56,3 +56,6 @@ buck-out/
 *.jsbundle
 
 .tern-port
+
+coverage/
+.nyc_output/

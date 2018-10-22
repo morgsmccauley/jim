@@ -50,4 +50,22 @@ describe('<Exercise />', () => {
 
     expect(renderedSetsAndReps).to.deep.equal(['80', '5', '80', '5', '80', '5', '80', '5']);
   });
+
+  it('should update set state on weight change', () => {
+    const newWeight = '100';
+    const wrapper = shallow(<Exercise name="chest" sets={sets} />);
+    const weight = wrapper.find(selector('TextInput', 'Exercise_set-weight')).first();
+    weight.simulate('blur', { nativeEvent: { text: newWeight } });
+    const stateWeight = (wrapper.state('sets') as any)[0].weight;
+    expect(stateWeight).to.equal(Number(newWeight));
+  });
+
+  it('should update set state on rep change', () => {
+    const newReps = '8';
+    const wrapper = shallow(<Exercise name="chest" sets={sets} />);
+    const weight = wrapper.find(selector('TextInput', 'Exercise_set-reps')).first();
+    weight.simulate('blur', { nativeEvent: { text: newReps } });
+    const stateReps = (wrapper.state('sets') as any)[0].reps;
+    expect(stateReps).to.equal(Number(newReps));
+  });
 });

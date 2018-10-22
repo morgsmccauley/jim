@@ -1,3 +1,5 @@
 --require ts-node/register
 --require react-native-mock-render/mock
 --require test/setup
+
+App/**/*.spec.*

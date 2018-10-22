@@ -3,11 +3,10 @@
     "App/**/*"
   ],
   "exclude": [
-    "node_modules",
-    "App/**/*.spec.*"
+    "node_modules"
   ],
   "compilerOptions": {
-    "target": "es6",
+    "target": "es5",
     "module": "commonjs",
     "jsx": "react",
     "strict": true,

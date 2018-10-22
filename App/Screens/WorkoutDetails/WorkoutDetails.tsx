@@ -51,7 +51,7 @@ class WorkoutDetails extends React.Component<IWorkoutDetailsProps, IWorkoutDetai
     ),
   )(sets)
 
-  addExercise ({ name, sets, reps }: { name: string, sets: number, reps: number }) {
+  addExercise = ({ name, sets, reps }: { name: string, sets: number, reps: number }) => {
     this.setState(({ exercises }) => ({
       exercises: R.append(
         {
@@ -65,12 +65,8 @@ class WorkoutDetails extends React.Component<IWorkoutDetailsProps, IWorkoutDetai
     }));
   }
 
-  handleAddExercise = (initialExercise: { name: string, sets: number, reps: number }) => {
-    this.addExercise(initialExercise);
-  }
-
   openAddExerciseModal () {
-    this.props.navigation.navigate('AddExerciseModal', { onComplete: this.handleAddExercise });
+    this.props.navigation.navigate('AddExerciseModal', { onComplete: this.addExercise });
   }
 
   render () {

@@ -67,6 +67,7 @@ class Exercise extends React.Component<IExerciseProps, IExerciseState> {
         key={set.id}
       >
         <TextInput
+          testID="Exercise_set-weight"
           value={`${Math.round(set.weight)}`}
           onBlur={e => handleSetUpdate({ weight: Number(e.nativeEvent.text) })}
         />
@@ -74,6 +75,7 @@ class Exercise extends React.Component<IExerciseProps, IExerciseState> {
           {' x '}
         </Text>
         <TextInput
+          testID="Exercise_set-reps"
           value={`${set.reps}`}
           onBlur={e => handleSetUpdate({ reps: Number(e.nativeEvent.text) })}
         />

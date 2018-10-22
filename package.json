@@ -4,16 +4,34 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "node_modules/mocha/bin/_mocha --opts test/mocha.opts app/**/*.spec.* ",
+    "test": "node_modules/mocha/bin/_mocha --opts test/mocha.opts",
+    "coverage": "nyc --check-coverage node_modules/mocha/bin/_mocha --opts test/mocha.opts",
     "lint": "tslint -c tslint.json 'App/**/*.ts?(x)'",
-    "ts-check": "tsc --project tsconfig.json --skipLibCheck --noEmit",
+    "tsc": "tsc --project tsconfig.json --skipLibCheck --noEmit",
     "reset": "npm start -- --reset-cache",
     "clean": "rm -rf node_modules/ && npm install"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && npm run ts-check && npm run test"
+      "pre-commit": "npm run lint && npm run tsc && npm run test"
     }
+  },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "include": [
+      "App/**/*"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "**/*.spec.ts?(x)"
+    ],
+    "reporter": [
+      "html"
+    ],
+    "all": true
   },
   "dependencies": {
     "moment": "^2.22.2",
@@ -25,6 +43,7 @@
   },
   "devDependencies": {
     "@types/chai": "^4.1.6",
+    "@types/chai-string": "^1.4.1",
     "@types/enzyme": "^3.1.14",
     "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/mocha": "^5.2.5",
@@ -34,16 +53,20 @@
     "@types/react-native": "^0.56.24",
     "@types/react-navigation": "^2.0.24",
     "@types/sinon": "^5.0.2",
+    "@types/sinon-chai": "^3.2.0",
     "chai": "^4.2.0",
+    "chai-string": "^1.5.0",
     "enzyme": "^3.6.0",
     "enzyme-adapter-react-16": "^1.5.0",
     "husky": "^1.0.1",
     "jsdom": "^12.2.0",
     "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
     "react-dom": "^16.5.2",
     "react-native-mock-render": "^0.1.2",
     "react-native-typescript-transformer": "^1.2.10",
     "sinon": "^6.3.4",
+    "sinon-chai": "^3.2.0",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.9.2",
