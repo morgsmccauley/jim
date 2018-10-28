@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import {
   getDate,
   getDay,
-} from './Date';
+} from './date';
 
 describe('Date', () => {
   it('should get the current day, month, yeah', () => {

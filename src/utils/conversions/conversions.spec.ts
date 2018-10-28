@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import {
   lbToKg,
   kgToLb,
-} from './Conversions';
+} from './conversions';
 
 describe('Conversions', () => {
   it('should convert lb to kg', () => {

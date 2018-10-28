@@ -1,6 +1,6 @@
 {
   "include": [
-    "App/**/*"
+    "src/**/*"
   ],
   "exclude": [
     "node_modules"

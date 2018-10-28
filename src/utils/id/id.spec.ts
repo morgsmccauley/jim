@@ -1,6 +1,6 @@
 import chai from 'chai';
 
-import idGen from './Id';
+import idGen from './id';
 
 chai.use(require('chai-string'));
 const expect = chai.expect;

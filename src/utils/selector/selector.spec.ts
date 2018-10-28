@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import selector from './Selector';
+import selector from './selector';
 
 describe('Selector', () => {
   it('should return a JQuery type selector', () => {
