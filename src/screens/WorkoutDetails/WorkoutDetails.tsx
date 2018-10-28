@@ -1,9 +1,9 @@
 import R from 'ramda';
 import React from 'react';
-import idGen from '../../Utils/Id/Id';
+import idGen from '../../utils/id/id';
 import styles from './WorkoutDetailsStyles';
 import { NavigationScreenProp } from 'react-navigation';
-import Exercise, { IExercise, MassUnit } from '../../Components/Exercise/Exercise';
+import Exercise, { IExercise, MassUnit } from '../../components/Exercise/Exercise';
 import {
   FlatList,
   Text,

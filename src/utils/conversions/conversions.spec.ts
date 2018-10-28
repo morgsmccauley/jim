@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import {
   lbToKg,
   kgToLb,
-} from './Conversions';
+} from './conversions';
 
-describe('Conversions', () => {
+describe('conversions', () => {
   it('should convert lb to kg', () => {
     expect(lbToKg(1)).to.equal(0.45359237);
   });

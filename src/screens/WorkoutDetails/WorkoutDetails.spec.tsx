@@ -2,9 +2,9 @@ import React from 'react';
 import chai from 'chai';
 import sinon from 'sinon';
 import { shallow, mount } from 'enzyme';
-import selector from '../../Utils/Selector/Selector';
+import selector from '../../utils/selector/selector';
 import navigation from '../../../mocks/react-navigation';
-import { MassUnit } from '../../Components/Exercise/Exercise';
+import { MassUnit } from '../../components/Exercise/Exercise';
 
 import WorkoutDetails from './WorkoutDetails';
 

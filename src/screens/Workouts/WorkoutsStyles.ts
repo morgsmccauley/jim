@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import ApplicationStyles from '../../Themes/ApplicationStyles';
+import applicationStyles from '../../themes/applicationStyles';
 
 export default StyleSheet.create({
   addWorkoutButton: {
@@ -10,7 +10,7 @@ export default StyleSheet.create({
     fontFamily: 'IBMPlexSans-Light',
   },
   container: {
-    ...ApplicationStyles.container,
+    ...applicationStyles.container,
   },
   date: {
     fontSize: 30,

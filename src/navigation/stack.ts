@@ -1,9 +1,9 @@
 import { createStackNavigator } from 'react-navigation';
 
-import Workouts from '../Screens/Workouts/Workouts';
-import WorkoutDetails from '../Screens/WorkoutDetails/WorkoutDetails';
+import Workouts from '../screens/Workouts/Workouts';
+import WorkoutDetails from '../screens/WorkoutDetails/WorkoutDetails';
 
-import AddExerciseModal from '../Components/AddExerciseModal/AddExerciseModal';
+import AddExerciseModal from '../components/AddExerciseModal/AddExerciseModal';
 
 const mainStack = createStackNavigator(
   {

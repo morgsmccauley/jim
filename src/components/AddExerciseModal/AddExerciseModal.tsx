@@ -1,4 +1,3 @@
-// import Modal from 'react-native-modal';
 import React from 'react';
 import Styles from './AddExerciseModalStyles';
 import { NavigationScreenProp } from 'react-navigation';

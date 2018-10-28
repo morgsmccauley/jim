@@ -6,7 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "node_modules/mocha/bin/_mocha --opts test/mocha.opts",
     "coverage": "nyc --check-coverage node_modules/mocha/bin/_mocha --opts test/mocha.opts",
-    "lint": "tslint -c tslint.json 'App/**/*.ts?(x)'",
+    "lint": "tslint -c tslint.json 'src/**/*.ts?(x)'",
     "tsc": "tsc --project tsconfig.json --skipLibCheck --noEmit",
     "reset": "npm start -- --reset-cache",
     "clean": "rm -rf node_modules/ && npm install"
@@ -22,7 +22,7 @@
       ".tsx"
     ],
     "include": [
-      "App/**/*"
+      "src/**/*"
     ],
     "exclude": [
       "**/*.d.ts",

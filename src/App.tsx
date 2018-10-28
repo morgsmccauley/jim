@@ -1,5 +1,5 @@
 import React from 'react';
-import RootStack from './Navigation/Stack';
+import RootStack from './navigation/stack';
 
 export default () => (
   <RootStack />

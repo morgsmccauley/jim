@@ -4,9 +4,9 @@ import { expect } from 'chai';
 import {
   getDate,
   getDay,
-} from './Date';
+} from './date';
 
-describe('Date', () => {
+describe('date', () => {
   it('should get the current day, month, yeah', () => {
     expect(getDate()).to.equal(moment().format('Do MMMM YYYY'));
   });

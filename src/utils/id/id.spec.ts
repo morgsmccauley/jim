@@ -1,11 +1,11 @@
 import chai from 'chai';
 
-import idGen from './Id';
+import idGen from './id';
 
 chai.use(require('chai-string'));
 const expect = chai.expect;
 
-describe('Id', () => {
+describe('id', () => {
   it('should prefix the id when specified', () => {
     const id = idGen('prefix');
     expect(id()).to.startsWith('prefix_');

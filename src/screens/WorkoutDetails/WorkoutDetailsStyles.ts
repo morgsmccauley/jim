@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
-import ApplicationStyles from '../../Themes/ApplicationStyles';
+import applicationStyles from '../../themes/applicationStyles';
 
 export default StyleSheet.create({
   container: {
-    ...ApplicationStyles.container,
+    ...applicationStyles.container,
   },
   header: {
     flexDirection: 'column',
