@@ -1,7 +1,5 @@
-import R from 'ramda';
+import { connect } from 'react-redux';
 import React from 'react';
-import idGen from '../../utils/id/id';
-import styles from './WorkoutsStyles';
 import { NavigationScreenProp } from 'react-navigation';
 import {
   FlatList,
@@ -10,7 +8,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { getDate, getDay } from '../../utils/date/date';
+
+import idGen from '../../utils/id/id';
+import styles from './WorkoutsStyles';
+import {
+  getDate,
+  getDay,
+} from '../../utils/date/date';
+import { workoutActions } from '../../actions';
 
 const workoutIdGen = idGen('workout');
 
@@ -29,6 +34,9 @@ interface IWorkoutState {
 
 interface IWorkoutProps {
   navigation: NavigationScreenProp<any, any>;
+  addWorkout: (object: IWorkout) => void;
+  updateWorkoutName: (name: string, id: string) => void;
+  workouts: IWorkout[];
 }
 
 class WorkoutsScreen extends React.Component<IWorkoutProps, IWorkoutState> {
@@ -36,25 +44,15 @@ class WorkoutsScreen extends React.Component<IWorkoutProps, IWorkoutState> {
     title: 'Workouts',
   };
 
-  state = {
-    workouts: [],
-    day: getDay(),
-    date: getDate(),
-  };
+  day = getDay();
+  date = getDate();
 
   addNewWorkout = (currentDate: { day: string, date: string }) => {
-    const workouts = R.prepend(
-      {
-        id: workoutIdGen(),
-        name: 'Workout',
-        ...currentDate,
-      },
-      this.state.workouts,
-    );
+    this.props.addWorkout({ day: this.day, date: this.date, id: workoutIdGen(), name: 'Workout' });
+  }
 
-    this.setState({
-      workouts,
-    });
+  updateWorkoutForId = (id: string) => (e: any) => {
+    this.props.updateWorkoutName(e.nativeEvent.text, id);
   }
 
   renderWorkoutListItem = (workout: IWorkout) => (
@@ -67,6 +65,7 @@ class WorkoutsScreen extends React.Component<IWorkoutProps, IWorkoutState> {
         style={styles.workoutName}
         value={workout.name}
         clearTextOnFocus
+        onBlur={this.updateWorkoutForId(workout.id)}
       />
       <View>
         <Text style={styles.workoutDate}>
@@ -109,14 +108,23 @@ class WorkoutsScreen extends React.Component<IWorkoutProps, IWorkoutState> {
   )
 
   render() {
-    const { workouts, day, date } = this.state;
+    const { workouts } = this.props;
 
     return (
       <View style={styles.container}>
-        {this.renderWorkoutList(workouts, day, date)}
+        {this.renderWorkoutList(workouts, this.day, this.date)}
       </View>
     );
   }
 }
 
-export default WorkoutsScreen;
+const mapStateToProps = (state: any) => ({
+  workouts: state,
+});
+
+const mapDispatchToProps = {
+  addWorkout: workoutActions.addWorkout,
+  updateWorkoutName: workoutActions.updateWorkoutName,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(WorkoutsScreen);
